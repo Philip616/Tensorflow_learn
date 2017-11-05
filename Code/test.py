@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Created on Sun Nov  5 14:22:21 2017
 
-This is a temporary script file.
+@author: hyps4
 """
 import tensorflow as tf
-import numpy as np
+from tensorflow.examples.tutorials.mnist import input_data
+mnist = input_data.read_data_sets("MNIST_data/",one_hot=True)
 
-b = tf.Variable(tf.zeros([100]))
-W = tf.Variable(tf.random_uniform([784,100],-1,1))
-x = tf.placeholder(tf.float32)
-relu = tf.nn.relu(tf.matmul(W,x)+b)
-C = [...]
-s = tf.Session()
+sess = tf.InteractiveSession()
 
-for step in range (10):
-    input = np.random.rand(100)
-    result = s.run({x: input})
-    print(step, result)
-    
+x = tf.placeholder(tf.float32,[None,784])
+W = tf.Variable(tf.zeros([784,10]))
+b = tf.Variable(tf.zeros([10]))
+y = tf.nn.softmax(tf.matmul(x,W) + b)
+
+#loss Function
+y_ = tf.placeholder(tf.float32,[None,10])
+cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y),reduction_indices=[1]))
