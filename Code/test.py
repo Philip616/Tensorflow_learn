@@ -1,21 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Spyder Editor
+from tensorflow.examples.tutorials.mnist import input_data
 
-This is a temporary script file.
-"""
-import tensorflow as tf
-import numpy as np
-
-b = tf.Variable(tf.zeros([100]))
-W = tf.Variable(tf.random_uniform([784,100],-1,1))
-x = tf.placeholder(tf.float32)
-relu = tf.nn.relu(tf.matmul(W,x)+b)
-C = [...]
-s = tf.Session()
-
-for step in range (10):
-    input = np.random.rand(100)
-    result = s.run({x: input})
-    print(step, result)
-    
+mnist = input_data.read_data_sets("MNIST_data/",one_hot=True)
