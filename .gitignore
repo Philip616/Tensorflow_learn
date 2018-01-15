@@ -99,3 +99,4 @@ ENV/
 .mypy_cache/
 *.gz
 *.zip
+*.data-00000-of-00001
