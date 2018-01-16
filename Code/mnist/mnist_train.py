@@ -1,31 +1,18 @@
-
-# coding: utf-8
-
-# In[2]:
-
-
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 import mnist_inference
 import os
-mnist = input_data.read_data_sets("./MNIST DATA", one_hot=True)
-
-
-# In[3]:
 
 
 BATCH_SIZE = 100
 LEARNING_RATE_BASE = 0.8
 LEARNING_RATE_DECAY = 0.99
 REGULARIZATION_RATE = 0.0001
-TRAING_STEP = 3000
+TRAING_STEP = 6000
 MOVING_AVERAGE_DECAY = 0.99
 
-MODEL_SAVE_PATH = "./mnist/save"
+MODEL_SAVE_PATH = "./save"
 MODEL_NAME = "model.ckpt"
-
-
-# In[4]:
 
 
 def train(mnist):
@@ -58,37 +45,31 @@ def train(mnist):
     
     #先不執行optimizer先執行variable_averages_op
     with tf.control_dependencies([optimizer, variable_averages_op]):
-        optimizer = tf.no_op(name="train")
+        train_op = tf.no_op(name="train")
     
     #初始化持久化類
     saver = tf.train.Saver()
     with tf.Session() as sess:
         tf.global_variables_initializer().run()
         
-        for i in range(6000):
+        for i in range(TRAING_STEP):
                               
             xs, ys = mnist.train.next_batch(BATCH_SIZE)
 
-            _, loss_value, step = sess.run([optimizer, loss, global_step], feed_dict={x : xs, y:ys})
+            _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x : xs, y:ys})
             
             if (i % 1000 == 0):
                 print("After %d training step(s), loss on training batch is %g." % (step, loss_value))
                 saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME), global_step=global_step)
         
 def main(argv=None):
-#     mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
+    mnist = input_data.read_data_sets("./MNIST DATA", one_hot=True)
     train(mnist)
 
 
-# In[ ]:
-
-
 if __name__ == '__main__':
-    tf.reset_default_graph()
     tf.app.run()
 
-
-# In[ ]:
 
 
 
