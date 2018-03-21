@@ -103,3 +103,10 @@ ENV/
 *.index
 *.meta
 Code/Reinforcement Learning/dqn/checkpoint
+*.png
+*.txt
+*.mp3
+*.mid
+*.midi
+*.jpg
+*.wav
